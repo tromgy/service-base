@@ -78,9 +78,11 @@ The last two arguments are optional, but lacking event id the logged event would
 
     The description for Event ID 0 from source <your-service> cannot be found. Either the component that raises this event is not installed on your local computer or the installation is corrupted. You can install or repair the component on the local computer.
 
+To allow the same logging options from _within_ the `CServiceBase` class, the constructor was extended to take two optional arguments: `dwErrorEventId` and `wErrorCategoryId`. It is expected (if these arguments are specified when creating the service instance) that strings matching these ids can be found in the resources. These strings will be used only for error reporting (the base class only writes logging messages if something goes wrong).
+
 To provide strings for event and category ids we need to have a two-step process for building the string resources:
 
-1. Run _message compiler_ (**mc.exe**) on the message strings (.mc) file. That generates resources (.rc) file, corresponding header file to be included in your code, and the binary (.bin) file containing the actual strings for the event and categories.
+1. Run _message compiler_ (**mc.exe**) on the message strings (.mc) file. That generates resources (.rc) file, corresponding header file to be included in your code, and the binary (.bin) file containing the actual strings for the events and categories.
 
 2. Run resource compiler to generate .res file.
 

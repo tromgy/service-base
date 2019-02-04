@@ -38,7 +38,9 @@ class CServiceBase
     CServiceBase(PCWSTR pszServiceName,
                  BOOL fCanStop = TRUE,
                  BOOL fCanShutdown = TRUE,
-                 BOOL fCanPauseContinue = FALSE);
+                 BOOL fCanPauseContinue = FALSE,
+                 DWORD dwErrorEventId = 0,
+                 WORD wErrorCategoryId = 0);
 
     // Service object destructor.
     virtual ~CServiceBase(void);
@@ -128,4 +130,8 @@ class CServiceBase
 
     // The service status handle
     SERVICE_STATUS_HANDLE m_statusHandle;
+
+    // This is used for error logging into Windows Event Log
+    DWORD m_dwErrorEventId;
+    WORD m_wErrorCategoryId;
 };

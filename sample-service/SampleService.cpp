@@ -28,7 +28,7 @@ CSampleService::CSampleService(PCWSTR pszServiceName,
                                BOOL fCanStop,
                                BOOL fCanShutdown,
                                BOOL fCanPauseContinue) :
-    CServiceBase(pszServiceName, fCanStop, fCanShutdown, fCanPauseContinue)
+    CServiceBase(pszServiceName, fCanStop, fCanShutdown, fCanPauseContinue, MSG_SVC_FAILURE, CATEGORY_SERVICE)
 {
     m_bIsStopping = FALSE;
 

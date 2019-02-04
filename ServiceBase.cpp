@@ -157,11 +157,15 @@ void WINAPI CServiceBase::ServiceCtrlHandler(DWORD dwCtrl)
 //   * fCanStop - the service can be stopped
 //   * fCanShutdown - the service is notified when system shutdown occurs
 //   * fCanPauseContinue - the service can be paused and continued
+//   * dwErrorEventId - the event id for the error log messages
+//   * wErrorCategoryId - the event category for the error log messages.
 //
 CServiceBase::CServiceBase(PCWSTR pszServiceName,
                            BOOL fCanStop,
                            BOOL fCanShutdown,
-                           BOOL fCanPauseContinue)
+                           BOOL fCanPauseContinue,
+                           DWORD dwErrorEventId,
+                           WORD wErrorCategoryId)
 {
     // Service name must be a valid string and cannot be NULL.
     m_name = (pszServiceName == NULL) ? const_cast<PWSTR>(L"") : pszServiceName;
@@ -188,6 +192,9 @@ CServiceBase::CServiceBase(PCWSTR pszServiceName,
     m_status.dwServiceSpecificExitCode = 0;
     m_status.dwCheckPoint = 0;
     m_status.dwWaitHint = 0;
+
+    m_dwErrorEventId = dwErrorEventId;
+    m_wErrorCategoryId = wErrorCategoryId;
 }
 
 
@@ -241,7 +248,7 @@ void CServiceBase::Start(DWORD dwArgc, PWSTR *pszArgv)
     catch (...)
     {
         // Log the error.
-        WriteLogEntry(L"Service failed to start.", EVENTLOG_ERROR_TYPE);
+        WriteLogEntry(L"Service failed to start.", EVENTLOG_ERROR_TYPE, m_dwErrorEventId, m_wErrorCategoryId);
 
         // Set the service status to be stopped.
         SetServiceStatus(SERVICE_STOPPED);
@@ -302,7 +309,7 @@ void CServiceBase::Stop()
     catch (...)
     {
         // Log the error.
-        WriteLogEntry(L"Service failed to stop.", EVENTLOG_ERROR_TYPE);
+        WriteLogEntry(L"Service failed to stop.", EVENTLOG_ERROR_TYPE, m_dwErrorEventId, m_wErrorCategoryId);
 
         // Set the orginal service status.
         SetServiceStatus(dwOriginalState);
@@ -357,7 +364,7 @@ void CServiceBase::Pause()
     catch (...)
     {
         // Log the error.
-        WriteLogEntry(L"Service failed to pause.", EVENTLOG_ERROR_TYPE);
+        WriteLogEntry(L"Service failed to pause.", EVENTLOG_ERROR_TYPE, m_dwErrorEventId, m_wErrorCategoryId);
 
         // Tell SCM that the service is still running.
         SetServiceStatus(SERVICE_RUNNING);
@@ -410,7 +417,7 @@ void CServiceBase::Continue()
     catch (...)
     {
         // Log the error.
-        WriteLogEntry(L"Service failed to resume.", EVENTLOG_ERROR_TYPE);
+        WriteLogEntry(L"Service failed to resume.", EVENTLOG_ERROR_TYPE, m_dwErrorEventId, m_wErrorCategoryId);
 
         // Tell SCM that the service is still paused.
         SetServiceStatus(SERVICE_PAUSED);
@@ -456,7 +463,7 @@ void CServiceBase::Shutdown()
     catch (...)
     {
         // Log the error.
-        WriteLogEntry(L"Service failed to shut down.", EVENTLOG_ERROR_TYPE);
+        WriteLogEntry(L"Service failed to shut down.", EVENTLOG_ERROR_TYPE, m_dwErrorEventId, m_wErrorCategoryId);
     }
 }
 
@@ -617,8 +624,8 @@ void CServiceBase::WriteErrorLogEntry(PCWSTR pszFunction, DWORD dwError)
 {
     wchar_t szMessage[260];
     StringCchPrintf(szMessage, ARRAYSIZE(szMessage),
-                    L"%s failed w/err 0x%08lx", pszFunction, dwError);
-    WriteLogEntry(szMessage, EVENTLOG_ERROR_TYPE);
+                    L"%s failed with error code 0x%08lx", pszFunction, dwError);
+    WriteLogEntry(szMessage, EVENTLOG_ERROR_TYPE, m_dwErrorEventId, m_wErrorCategoryId);
 }
 
 #pragma endregion

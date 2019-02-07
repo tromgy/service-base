@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/k197mtn89ylpjyp7?svg=true)](https://ci.appveyor.com/project/tromgy/service-base)
+
 # C++ class and library to implement a Windows service
 
 This project provides a C++ base class with minimal dependencies that you can derive from to create a Microsoft Windows service executable.

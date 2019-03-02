@@ -158,7 +158,7 @@ void InstallService(PCWSTR pszServiceName,
                                    0,
                                    REG_SZ,
                                    (BYTE*)pszResourcePath,
-                                   (wcslen(wszPath) + 1) * sizeof(WCHAR));
+                                   (wcslen(pszResourcePath) + 1) * sizeof(WCHAR));
 
             if (status != ERROR_SUCCESS)
             {
@@ -194,7 +194,7 @@ void InstallService(PCWSTR pszServiceName,
                                        0,
                                        REG_SZ,
                                        (BYTE*)pszResourcePath,
-                                       (wcslen(wszPath) + 1) * sizeof(WCHAR));
+                                       (wcslen(pszResourcePath) + 1) * sizeof(WCHAR));
 
                 if (status != ERROR_SUCCESS)
                 {

@@ -31,3 +31,17 @@
 *.out
 *.app
 *.user
+
+# Other build artifacts
+*.vs
+*.bin
+*.res
+*.log
+*.pdb
+*.tlog
+*.idb
+*.ilk
+*.iobj
+*.ipdb
+event_ids.rc
+event_ids.h

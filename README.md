@@ -8,7 +8,7 @@ It also includes a complete service example that utilizes this class.
 
 ## Background
 
-Years ago (circa 2008?) Microsoft published the original C++ class and a sample service project that is still available at
+Years ago (circa 2008?) Microsoft published the original C++ class and a sample service project that was once available at
 
 https://code.msdn.microsoft.com/windowsapps/CppWindowsService-cacf4948
 

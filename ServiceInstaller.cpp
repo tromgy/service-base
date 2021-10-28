@@ -158,7 +158,9 @@ void InstallService(PCWSTR pszServiceName,
                                    0,
                                    REG_SZ,
                                    (BYTE*)pszResourcePath,
+#pragma warning(suppress : 4267) // path szResourcPath length ain't gonna overflow DWORD
                                    (wcslen(pszResourcePath) + 1) * sizeof(WCHAR));
+
 
             if (status != ERROR_SUCCESS)
             {
@@ -194,6 +196,7 @@ void InstallService(PCWSTR pszServiceName,
                                        0,
                                        REG_SZ,
                                        (BYTE*)pszResourcePath,
+#pragma warning(suppress : 4267) // path szResourcPath length ain't gonna overflow DWORD
                                        (wcslen(pszResourcePath) + 1) * sizeof(WCHAR));
 
                 if (status != ERROR_SUCCESS)

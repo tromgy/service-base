@@ -150,3 +150,7 @@ The registration information is stored in the following key:
 **HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Application\sample-service**
 
 Finally, if you do not wish to utilize Windows Event Log system, you can completely override `CServiceBase::WriteLogEntry` method to log into your own file for example.
+
+## Building
+
+The **master** branch now contains the solutions and projects for MS Visual Studio 2022. The **VS2019** and **VS2017** branches contain the same for MS Visual Studio 2019 and MS Visual Studio 2017 accordingly.
